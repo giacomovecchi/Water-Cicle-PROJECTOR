@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>monitor</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <style>
+  h1 {
+    font-size: 100px;
+  }
+  </style>
+</head>
+<body>
+  <h1 id="title"></h1>
+  <script>
+    // Make connection
+    var socket = io.connect('http://lab.parallelo.it:4000');
+
+    // Query DOM
+    var title = document.getElementById('title');
+
+    // Listen for events
+    socket.on('update', function(data){
+      console.log(data);
+      title.innerHTML = data.text;
+    });
+
+  </script>
+</body>
+</html>

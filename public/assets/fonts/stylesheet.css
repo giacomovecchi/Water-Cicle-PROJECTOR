@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Futura PT Bold';
+    src: url('FuturaPT-Bold.woff2') format('woff2'),
+        url('FuturaPT-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Futura PT Extra';
+    src: url('FuturaPT-ExtraBold.woff2') format('woff2'),
+        url('FuturaPT-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'futura_lt_btlight';
+    src: url('futura_light_bt-webfont.woff2') format('woff2'),
+         url('futura_light_bt-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'futura_bk_btbook';
+    src: url('futura_book_font-webfont.woff2') format('woff2'),
+         url('futura_book_font-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('open_sans_regular-webfont.woff2') format('woff2'),
+         url('open_sans_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'open_sansitalic';
+    src: url('open_sans_italic-webfont.woff2') format('woff2'),
+         url('open_sans_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

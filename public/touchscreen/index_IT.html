@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciclo dell'Acqua - Touchscreen</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <!--<link rel="stylesheet" href="../assets/fonts/specimen_files/specimen_stylesheet.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../assets/fonts/stylesheet.css" type="text/css" charset="utf-8" />-->
+  <link rel="stylesheet" href="futura/style.css" type="text/css" charset="utf-8" />
+  <script src="../js/socket.io.js"></script>
+  <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+
+
+
+  <!-- Container per cambio lingua -->
+  <section class="fascia" >
+    <section class="fascia-img">
+            <!--
+            <a href="./index_EN.html"><img src="../assets/en.png" alt="" class=""></a>  
+            <a href="./index_IT.html"><img src="../assets/it.png" alt="" class="it"></a>
+            -->
+            
+            <img src="../assets/en.png" alt="" class="btn" data-text="en" id="">
+            <img src="../assets/it.png" alt="" class="btn" data-text="it" id="it">
+    </section>
+</section>
+<!-- -->
+
+
+
+
+
+<body onselectstart="return false">
+    
+  <div id="wrapper">
+    
+    <div id="circle">
+        <div class="button" id="fase-1">
+            <button class="btn" data-video="" data-text="1" data-type="single" data-order="1">
+                <img src="../assets/Evaporazione.png" alt="Evaporazione" />
+            </button>
+        </div>
+        <div class="button" id="fase-2">
+            <button class="btn" data-video="" data-text="2" data-type="single" data-order="2">
+                <img src="../assets/Condensazione.png" alt="Condensazione" />
+            </button>
+        </div>
+        <div class="button" id="fase-3">
+            <button class="btn" data-video="" data-text="3" data-type="single" data-order="3">
+                <img src="../assets/Precipitazione.png" alt="Precipitazione" />
+            </button>
+        </div>
+        <div class="button" id="fase-4">
+            <button class="btn" data-video="" data-text="4" data-type="single" data-order="4">
+                <img src="../assets/Scorrimento.png" alt="Scorrimento" />
+            </button>
+        </div>
+        <div class="button" id="fase-5">
+            <button class="btn" data-video="" data-text="5" data-type="single" data-order="5">
+                <img src="../assets/Infiltrazione.png" alt="Infiltrazione" />
+            </button>
+        </div>
+        <div class="button" id="fase-6">
+            <button class="btn" data-video="" data-text="6" data-type="single" data-order="6">
+                <img src="../assets/Cambiamento.png" alt="Cambiamento" />
+            </button>
+        </div>
+    </div>
+    
+    <div id="controls">
+        <button id="playbutton" class="btn" data-video="" data-text="play" data-type="" data-order="0"></button> 
+        <button id="pausebutton" class="btn" data-video="" data-text="pause" data-type="" data-order="0"></button>
+    </div>
+
+    <div id="goccione_IT"><button id="full" class="btn" data-video="" data-text="full" data-type="full" data-order="0"></div>
+
+    <div id="approfondimento">
+      <div id="heading">
+        <h1>IL CICLO DELL'ACQUA</h1>
+        <h2 id="title-header"></h2>
+      </div>
+      <div id="wrap"><div id="text">
+        <h3 id="title-inner"></h3>
+        <p id="text-inner"></p>
+      </div></div>
+    </div>
+    
+    <div id="data"></div>
+    <div id="logo"></div>
+  
+  </div>
+<script>
+// ridracoli
+var url = 'http://192.168.0.11/cms/';
+var connect_url = 'http://192.168.0.11:4000';
+
+// parallelo
+//var url = 'https://ridracoli.parallelo.it/';
+//var connect_url = 'http://lab.parallelo.it:4000';
+
+$.ajax({
+  //url: url+'get/cicloacqua',
+  url: '../assets/data.json',
+  success: function(jsondata){
+      jsondata.forEach(function(page){
+        // let video = url+'uploads/videos/';
+        // if(page.videos.length>0){
+        //   page.videos.forEach(function(v){
+        //     video += v.File
+        //   })
+        // }else{
+        //   video = ''
+        // }
+
+        let gallery = '';
+        let photo = url+'uploads/photos/';
+        if(page.photos.length>0){
+          gallery = '<div class="gallery">';
+          page.photos.forEach(function(p){
+            gallery += '<div class="photo"><img src="'+photo+p.File+'" alt="" /></div>'
+          })
+          gallery += '</div>'
+        }else{
+          gallery = ''
+        }
+
+        $('#data').append(
+          $("<div>").attr({
+            'class': 'page',
+            'id': 'page-'+page.Order,
+            'data-order': page.Order,
+            'data-title': page.Titolo,
+            'data-content': page.Descrizione+gallery,
+            'data-src': page.Order //video
+          })
+        )
+      })
+
+      //emit to server
+      // socket.emit('update',{
+      //   src: $('#page-0').attr('data-src'),
+      //   text: 'preview'
+      // })
+  }
+})
+
+// Make connection
+var socket = io.connect(connect_url);
+
+// Query DOM
+var btns = document.querySelectorAll('.btn');
+//console.log(btns);
+
+var status = 'full';
+
+for(var i=0; i<btns.length; i++) {
+  var btn = btns[i];
+  // Emit events
+  btn.addEventListener('click', function() {
+
+    // var videoSrc = this.dataset.video || "",
+    //     text = this.dataset.text || "";
+    
+    //emit to server
+    // socket.emit('update',{
+    //   src: $('#page-'+this.dataset.order).attr('data-src'), //videoSrc,
+    //   text: text
+    // });
+
+    if(this.dataset.type == 'single'){ status = 'single'; }
+
+    $('#controls').show();
+
+    switch(this.dataset.text){
+
+      case 'play':
+        $('#playbutton').hide();
+        $('#pausebutton').show();
+          socket.emit('update',{
+            src: '', //$('#page-6').attr('data-src'),
+            text: 'play',
+            type: status
+          });
+          break;
+
+      case 'pause':
+        $('#pausebutton').hide();
+        $('#playbutton').show();
+          socket.emit('update',{
+            src: '',
+            text: 'pause',
+            type: status
+          });
+          break;
+
+      case 'full':
+
+      	$('.button').each(function(){
+          $(this).removeClass('active')
+        })
+        $(this).parent().addClass('active')
+
+        $('#title-header').text($('#page-1').attr('data-title'))
+        $('#title-inner').text($('#page-1').attr('data-title'))
+        $('#text-inner').html($('#page-1').attr('data-content'))
+        $('#approfondimento').addClass('active');
+        $('#goccione_IT').addClass('hide');
+
+      	$('#playbutton').hide();
+        $('#pausebutton').show();
+          socket.emit('update',{
+            src: '', //$('#page-6').attr('data-src'),
+            text: 'play',
+            type: 'full'
+          });
+          break;
+      
+      case 'en':
+          socket.emit('update',{
+            src: '',
+            text: 'reset',
+            type: status
+          });
+          //evento cambio pagina
+          window.location.href = './index_EN.html'
+        break;
+
+      case 'it':
+        socket.emit('update',{
+          src: '',
+          text: 'reset',
+          type: status
+        });
+        //evento cambio pagina
+        window.location.href = './index_IT.html'
+        break;
+
+      default:
+      	//console.log('button'+this.dataset.text)
+        console.log(''+this.dataset.order)
+
+        $('.button').each(function(){
+          $(this).removeClass('active')
+        })
+        $(this).parent().addClass('active')
+
+        $('#title-header').text($('#page-'+this.dataset.order).attr('data-title'))
+        $('#title-inner').text($('#page-'+this.dataset.order).attr('data-title'))
+        $('#text-inner').html($('#page-'+this.dataset.order).attr('data-content'))
+        $('#approfondimento').addClass('active');
+        $('#goccione_IT').addClass('hide');
+
+        $('#playbutton').hide();
+        $('#pausebutton').show();
+        socket.emit('update',{
+            src: '',
+            text: this.dataset.text,
+            type: 'single'
+          });
+        break;
+    }
+
+  });
+}
+
+// Listen for events
+socket.on('ended', function(data){
+
+	console.log('ended',data.text)
+
+	if(data.text != 'end'){
+		$('.button').each(function(){
+		    $(this).removeClass('active')
+		})      
+		$('#fase-'+data.text).addClass('active');
+		$('#title-header').text($('#page-'+data.text).attr('data-title'))
+		$('#title-inner').text($('#page-'+data.text).attr('data-title'))
+		$('#text-inner').html($('#page-'+data.text).attr('data-content'))
+	}else{
+		$('#approfondimento').removeClass('active');
+		$('#goccione_IT').removeClass('hide');
+		$('.button').each(function(){
+		  $(this).removeClass('active')
+		})
+		$('#controls').hide();
+	}
+})
+
+</script>
+</body>
+</html>

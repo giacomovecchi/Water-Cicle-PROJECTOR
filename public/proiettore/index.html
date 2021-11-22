@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciclo dell'Acqua - Proiettore</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link href="../css/video-js.css" rel="stylesheet" />
+  <link rel="stylesheet" href="futura/style.css" type="text/css" charset="utf-8" />
+  <script src="../js/socket.io.js"></script>
+  <script src="../js/jquery-3.3.1.min.js"></script>
+  <script src="../js/video.min.js"></script>
+</head>
+<body id="proiettore">
+  <div id="alert">
+    <div class="image"><img src="../assets/gocciona.png" alt="Introduzione al ciclo dell'acqua" /></div>
+    <div id="alert-text">
+      <div id="alert-content" >
+        <h1 >Il ciclo dell'acqua <b></b><span style="color:rgb(8, 8, 8);">  The Water Cycle</span></h1>
+        <h4 >Tocca sui bottoni del touchscreen per scoprire le varie fasi<b> </b><span style="color:rgb(8, 8, 8);"> <p></p> the buttons on the touchscreen to discover the various stages</span></h4>
+      </div>
+    </div>
+  </div>
+  <video id="video" class="video-js vjs-default-skin" preload="auto" playsinline=""  src="../assets/video-completo.mp4" data-setup='{}' fullscreen="">
+  
+<script>
+    
+// Ridracoli
+var socket = io.connect('http://192.168.0.11:4000');
+
+// Parallelo
+//var socket = io.connect('http://lab.parallelo.it:4000');
+
+var video;
+
+$('#video').on('timeupdate', function () {
+      
+  console.log(socket.toString())
+
+  if($('#video').attr('data-type') == 'single'){
+      switch($('#video').attr('data-text')){
+        case '1': //evaporazione 0s - 45s
+          if(video.currentTime() > 45.1) { 
+            video.pause(); 
+            $('#video').removeClass('active');
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '2': //condensazione 45s - 98s
+          if(video.currentTime() > 98.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '3': //precipitazioni 98s - 152s
+          if(video.currentTime() > 152.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '4': //scorrimento 152s - 190s
+          if(video.currentTime() > 190.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '5': //infiltrazione 190s - 222s
+          if(video.currentTime() > 222.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '6': //cambiamento climatico 222s - 284s
+          if(video.currentTime() > 284.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '7': //evaporation 284s - 328s
+          if(video.currentTime() > 328.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '8': //condensation 328s - 382s
+          if(video.currentTime() > 382.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '9': //precipitation 382s - 436s
+          if(video.currentTime() > 436.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '10': //rivers 436s - 474s
+          if(video.currentTime() > 474.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+        case '11': //infiltration 474s - 506s
+          if(video.currentTime() > 506.1) { 
+            video.pause(); 
+            $('#video').removeClass('active'); 
+            socket.emit('ended', { text: 'end' }) 
+          } 
+          break;
+      }
+  }else{
+      // video intero
+      switch(true){
+        case (video.currentTime() > 0.0 && video.currentTime() < 0.2): //evaporazione 0s
+          socket.emit('ended',{ text: '1' }); break;
+        case (video.currentTime() > 44.9 && video.currentTime() < 45.1): //condensazione 45s
+          socket.emit('ended',{ text: '2' }); break;
+        case (video.currentTime() > 97.9 && video.currentTime() < 98.1): //precipitazioni 98s
+          socket.emit('ended',{ text: '3' }); break;
+        case (video.currentTime() > 151.9 && video.currentTime() < 152.1): //scorrimento 152s
+          socket.emit('ended',{ text: '4' }); break;
+        case (video.currentTime() > 189.9 && video.currentTime() < 190.1): //infiltrazione 190s
+          socket.emit('ended',{ text: '5' }); break;
+        case (video.currentTime() > 221.9 && video.currentTime() < 222.1): //cambiamento climatico 222s
+          socket.emit('ended',{ text: '6' }); break;
+        case (video.currentTime() > 283.9 && video.currentTime() < 284.1): //evaporation 284s
+          socket.emit('ended',{ text: '7' }); break;
+        case (video.currentTime() > 327.9 && video.currentTime() < 328.1): //condensation 328s
+          socket.emit('ended',{ text: '8' }); break;
+        case (video.currentTime() > 381.9 && video.currentTime() < 382.1): //precipitation 382s
+          socket.emit('ended',{ text: '9' }); break;
+        case (video.currentTime() > 435.9 && video.currentTime() < 436.1): //rivers 436s
+          socket.emit('ended',{ text: '10' }); break;
+        case (video.currentTime() > 473.9 && video.currentTime() < 474.1): //infiltration 474s
+          socket.emit('ended',{ text: '11' }); break;
+        case (video.currentTime() > 505.9 && video.currentTime() < 506.1): //climate change 506s
+          socket.emit('ended',{ text: '12' }); break;  
+        
+      }
+  }
+
+})
+
+
+
+videojs("video").ready(function(){
+  video = this;
+
+  socket.on('update', function(data){
+    console.log('socket_on_1');
+    $('#video').addClass('active');
+
+
+
+    if(data.type == 'single'){
+      $('#video').attr('data-type','single')
+      $('#video').attr('data-text',data.text)
+      switch(data.text){
+        case 'play': video.play(); break;
+        case 'pause': video.pause(); break;
+        case '1': video.pause(); video.currentTime(0); video.play(); break; //evaporazione
+        case '2': video.pause(); video.currentTime(45); video.play(); break; //condensazione
+        case '3': video.pause(); video.currentTime(98); video.play(); break; //precipitazioni
+        case '4': video.pause(); video.currentTime(152); video.play(); break; //scorrimento
+        case '5': video.pause(); video.currentTime(190); video.play(); break; //infiltrazione
+        case '6': video.pause(); video.currentTime(222); video.play(); break; //cambiamento climatico
+        case '7': video.pause(); video.currentTime(284); video.play(); break; //evaporation
+        case '8': video.pause(); video.currentTime(328); video.play(); break; //condensation
+        case '9': video.pause(); video.currentTime(382); video.play(); break; //precipitation
+        case '10': video.pause(); video.currentTime(436); video.play(); break; //rivers
+        case '11': video.pause(); video.currentTime(474); video.play(); break; //infiltration
+        case '12': video.pause(); video.currentTime(506); video.play(); break; //climate change
+        case 'reset': video.pause(); video.currentTime(0); $('#video').removeClass('active'); break; //change lenguage
+        default:  video.play(); break;
+      } 
+    }else{
+      // video intero
+      $('#video').attr('data-type','full')
+      $('#video').attr('data-text','full')
+      switch(data.text){
+        case 'pause': video.pause(); break;
+        default: video.currentTime(0); video.play(); break;
+      }
+      
+    }
+
+  });
+
+  socket.on('reset',function(){console.log('socket_on_2');});
+  
+
+  video.on('ended', function() {
+
+    this.removeClass('active');
+    video.currentTime(0);
+    socket.emit('ended', { text: 'end' })
+    
+  });
+
+});
+</script>
+
+</body>
+</html>
